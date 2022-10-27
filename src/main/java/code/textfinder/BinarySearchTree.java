@@ -152,7 +152,7 @@ class BinarySearchTree {
            // System.out.println(listafinal.get(0));
 
         } catch (Exception ex) {
-            System.out.println("Mensaje: " + ex.getMessage());
+            System.out.println( ex.getMessage());
         } finally {
             // Cerramos el fichero tanto si la lectura ha sido correcta o no
             try {
