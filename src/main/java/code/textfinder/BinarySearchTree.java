@@ -61,8 +61,6 @@ class BinarySearchTree {
         }
 
     }
-
-
     public void insertar(String dato) {
         if (this.raiz == null) {
             this.raiz = new Node(dato);
@@ -70,7 +68,6 @@ class BinarySearchTree {
             this.insertar(this.raiz, dato);
         }
     }
-
     private void insertar(Node padre, String dato) {
         if (dato.compareTo(padre.getDato()) > 0) {
             if (padre.getDerecha() == null) {
@@ -86,7 +83,6 @@ class BinarySearchTree {
             }
         }
     }
-
     private void preorden(Node n) {
         if (n != null) {
             n.imprimirDato();
@@ -94,7 +90,6 @@ class BinarySearchTree {
             preorden(n.getDerecha());
         }
     }
-
     private void inorden(Node n) {
         if (n != null) {
             inorden(n.getIzquierda());
@@ -102,7 +97,6 @@ class BinarySearchTree {
             inorden(n.getDerecha());
         }
     }
-
     private void postorden(Node n) {
         if (n != null) {
             postorden(n.getIzquierda());
@@ -110,19 +104,15 @@ class BinarySearchTree {
             n.imprimirDato();
         }
     }
-
     public void preorden() {
         this.preorden(this.raiz);
     }
-
     public void inorden() {
         this.inorden(this.raiz);
     }
-
     public void postorden() {
         this.postorden(this.raiz);
     }
-
     public void lector() throws IOException {
         File fichero = new File("C:\\Users\\eemma\\OneDrive\\Escritorio\\Info Para Buscar  Proyecto.txt");
         Scanner s = null;
@@ -130,17 +120,11 @@ class BinarySearchTree {
         String[] datos_linea;
         ArrayList<String> listafinal = new ArrayList<>();
         try {
-            // Leemos el contenido del fichero
 
             s = new Scanner(fichero);
 
-            // Leemos linea a linea el fichero
             while (s.hasNextLine()) {
-                linea = s.nextLine(); 	// Guardamos la linea en un String
-                //System.out.println(linea);      // Imprimimos la linea
-
-
-
+                linea = s.nextLine();
                 datos_linea = linea.split(" ");
                 for (int i=0; i<datos_linea.length;i++){
 
@@ -148,34 +132,42 @@ class BinarySearchTree {
                 }
 
             }
-
-           // System.out.println(listafinal.get(0));
-
         } catch (Exception ex) {
-            System.out.println( ex.getMessage());
+            System.out.println(ex.getMessage());
         } finally {
-            // Cerramos el fichero tanto si la lectura ha sido correcta o no
+
             try {
                 if (s != null)
                     s.close();
             } catch (Exception ex2) {
-                System.out.println("Mensaje 2: " + ex2.getMessage());
+                System.out.println(ex2.getMessage());
             }
         }
+        if (listafinal != null) {
+            for (String archivo : listafinal) {
+               insertar(archivo);
+            }
+        }
+
+        /*
+        preorden();
+        System.out.println("-----------------------------------------");
+        postorden();
+        System.out.println("------------------------------------------");
+        inorden();
+         */
     }
 
 
-   // linea = Arrays.toString(line.split(" "));
+
 
     public static void main(String[] args) throws IOException {
 
-        //------------------------------------------------//
         BinarySearchTree n = new BinarySearchTree();
-        //------------------------------------------------//
+
         System.out.println();
         n.lector();
     }
-
 }
 
 /*
