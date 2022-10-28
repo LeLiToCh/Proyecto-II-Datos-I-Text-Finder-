@@ -1,11 +1,15 @@
 package code.textfinder;
 
+import com.itextpdf.text.pdf.PdfReader;
+import com.itextpdf.text.pdf.parser.PdfTextExtractor;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.usermodel.XWPFParagraph;
+
 import java.io.*;
-import java.net.ServerSocket;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
+
 
 class BinarySearchTree {
     private Node raiz;
@@ -113,8 +117,8 @@ class BinarySearchTree {
     public void postorden() {
         this.postorden(this.raiz);
     }
-    public void lector() throws IOException {
-        File fichero = new File("C:\\Users\\eemma\\OneDrive\\Escritorio\\Info Para Buscar  Proyecto.txt");
+    public void lectortxt() throws IOException {
+        File fichero = new File("C:\\Users\\eemma\\OneDrive\\Escritorio\\Text Finder\\Bibliotecas\\Info Para Buscar  Proyecto.txt");
         Scanner s = null;
         String linea = null;
         String[] datos_linea;
@@ -149,24 +153,104 @@ class BinarySearchTree {
             }
         }
 
-        /*
+
         preorden();
         System.out.println("-----------------------------------------");
         postorden();
         System.out.println("------------------------------------------");
         inorden();
-         */
+
+        System.out.println("------------------------------------------");
+
+        File archivo = null;
+        FileReader fr = null;
+        BufferedReader br = null;
+
+        try {
+            // Apertura del fichero y creacion de BufferedReader para poder
+            // hacer una lectura comoda (disponer del metodo readLine()).
+            archivo = new File ("C:\\Users\\eemma\\OneDrive\\Escritorio\\Text Finder\\Bibliotecas\\doc para busquedas.docx");
+            fr = new FileReader (archivo);
+            br = new BufferedReader(fr);
+
+            // Lectura del fichero
+            String linea2;
+            while((linea2=br.readLine())!=null)
+                System.out.println(linea2);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            // En el finally cerramos el fichero, para asegurarnos
+            // que se cierra tanto si todo va bien como si salta
+            // una excepcion.
+            try{
+                if( null != fr ){
+                    fr.close();
+                }
+            }catch (Exception e2){
+                e2.printStackTrace();
+            }
+        }
+
+
     }
 
 
 
 
+
+    public void lectroPDF() throws IOException {
+        PdfReader reader = new PdfReader("C:\\Users\\eemma\\OneDrive\\Escritorio\\Text Finder\\Bibliotecas\\archivo para proyecto.pdf");
+
+
+        String page = PdfTextExtractor.getTextFromPage(reader, 1);
+        String[] datos_linea;
+        reader.close();
+        ArrayList<String> listafinal = new ArrayList<>();
+        datos_linea = page.split(" ");
+        try {
+
+
+                for (int i=0; i<datos_linea.length;i++) {
+
+                    listafinal.add(datos_linea[i]);
+                }
+
+
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+
+        if (listafinal != null) {
+            for (String archivo : listafinal) {
+                insertar(archivo);
+            }
+        }
+
+    }
+
     public static void main(String[] args) throws IOException {
 
         BinarySearchTree n = new BinarySearchTree();
 
-        System.out.println();
-        n.lector();
+
+        n.lectortxt();
+        //n.lectroPDF();
+        try {
+            FileInputStream file = new FileInputStream("C:\\Users\\eemma\\OneDrive\\Escritorio\\Text Finder\\Bibliotecas\\doc para busquedas.docx");
+            XWPFDocument docx = new XWPFDocument(file);
+            List<XWPFParagraph> paragraphList = docx.getParagraphs();
+
+            for(XWPFParagraph paragraph: paragraphList){
+
+                System.out.println(paragraph.getText());
+            }
+
+        }catch (IOException E){
+            System.out.println("error");
+        }
+
     }
 }
 
